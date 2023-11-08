@@ -13,21 +13,25 @@ static unsigned int repeat_count = 1;
 module_param(repeat_count, uint, 0644);
 MODULE_PARM_DESC(repeat_count, "Скільки разів вивести рядок 'Hello, world!'");
 
-static int __init hello2_init(void) {
-    if (repeat_count == 0 || (repeat_count >= 5 && repeat_count <= 10)) {
-        pr_warn("Невірне значення параметра.\n");
-    } else if (repeat_count > 10) {
-        pr_err("Невірне значення параметра. Модуль не завантажено.\n");
-        return -EINVAL;
-    }
+static int __init hello2_init(void)
+{
+	pr_info("hello1 module loaded\n");
 
-    print_hello(repeat_count);
+	if (repeat_count == 0 || (repeat_count >= 5 && repeat_count <= 10)) {
+		pr_warn("Невірне значення параметра.\n");
+	} else if (repeat_count > 10) {
+		pr_err("Невірне значення параметра. Модуль не завантажено.\n");
+		return -EINVAL;
+	}
 
-    return 0;
+	print_hello(repeat_count);
+
+	return 0;
 }
 
-static void __exit hello2_exit(void) {
-    pr_info("Unloading hello2 module\n");
+static void __exit hello2_exit(void)
+{
+	pr_info("Unloading hello2 module\n");
 }
 
 module_init(hello2_init);
